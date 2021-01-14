@@ -1,6 +1,7 @@
 package com.mycodestuffs.springmvcrest.controllers.v1;
 
 import com.mycodestuffs.springmvcrest.api.v1.model.CustomerDTO;
+import com.mycodestuffs.springmvcrest.controllers.RestResponseEntityExceptionHandler;
 import com.mycodestuffs.springmvcrest.services.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,7 +42,9 @@ class CustomerControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        mockMvc = MockMvcBuilders.standaloneSetup(customerController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(customerController)
+                .setControllerAdvice(new RestResponseEntityExceptionHandler())
+                .build();
     }
 
     @Test

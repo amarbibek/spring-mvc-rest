@@ -1,6 +1,7 @@
 package com.mycodestuffs.springmvcrest.controllers.v1;
 
 import com.mycodestuffs.springmvcrest.api.v1.model.CategoryDTO;
+import com.mycodestuffs.springmvcrest.controllers.RestResponseEntityExceptionHandler;
 import com.mycodestuffs.springmvcrest.domain.Category;
 import com.mycodestuffs.springmvcrest.services.CategoryService;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +46,9 @@ class CategoryControllerTest {
         // we do not need this as mock in injected
 //        categoryController= new CategoryController(categoryService);
 
-        mockMvc = MockMvcBuilders.standaloneSetup(categoryController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(categoryController)
+                .setControllerAdvice(new RestResponseEntityExceptionHandler())
+                .build();
 
     }
 
@@ -78,7 +81,7 @@ class CategoryControllerTest {
     void testGetByNameCategories() throws Exception {
         CategoryDTO category1 = new CategoryDTO();
         category1.setName(NAME);
-        category1.setId(2l);
+        category1.setId(2L);
 
         when(categoryService.getCategoryByName(anyString())).thenReturn(category1);
 
