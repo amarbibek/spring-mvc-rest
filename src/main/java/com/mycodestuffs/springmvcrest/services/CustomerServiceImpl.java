@@ -16,6 +16,12 @@ public class CustomerServiceImpl implements CustomerService{
     private   CustomerMapper customerMapper;
 
     private   CustomerRepository customerRepository;
+
+    public CustomerServiceImpl(CustomerMapper customerMapper, CustomerRepository customerRepository) {
+        this.customerMapper = customerMapper;
+        this.customerRepository = customerRepository;
+    }
+
     @Autowired
     public void setCustomerMapper(CustomerMapper customerMapper) {
         this.customerMapper = customerMapper;
@@ -25,10 +31,12 @@ public class CustomerServiceImpl implements CustomerService{
         this.customerRepository = customerRepository;
     }
 
+
 //    public CustomerServiceImpl(CustomerMapper customerMapper, CustomerRepository customerRepository) {
 //        this.customerMapper = customerMapper;
 //        this.customerRepository = customerRepository;
 //    }
+
 
     @Override
     public List<CustomerDTO> getAllCustomers() {
@@ -66,6 +74,20 @@ public class CustomerServiceImpl implements CustomerService{
         Customer customer = customerMapper.custometDtoTOCustomer(customerDTO);
         customer.setId(id);
         return saveAndReturnDTO(customer);
+    }
+
+    @Override
+    public CustomerDTO patchCustomer(Long id, CustomerDTO customerDTO) {
+        return customerRepository.findById(id).map(customer -> {
+            if (customerDTO.getFirstName()!= null){
+                customer.setFirstName(customerDTO.getFirstName());
+            }
+            if (customerDTO.getLastName()!= null){
+                customer.setLastName(customerDTO.getLastName());
+            }
+
+            return customerMapper.customerToCustomerDTO(customerRepository.save(customer));
+        }).orElseThrow(RuntimeException::new);
     }
 
     private CustomerDTO saveAndReturnDTO(Customer customer){

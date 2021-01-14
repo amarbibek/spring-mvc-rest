@@ -29,7 +29,8 @@ class CustomerServiceImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        customerService=new CustomerServiceImpl();
+//        customerService=new CustomerServiceImpl();
+        customerService=new CustomerServiceImpl(customerMapper, customerRepository);
         customerService.setCustomerMapper(customerMapper);
         customerService.setCustomerRepository(customerRepository);
         // customerService = new CustomerServiceImpl(customerMapper, customerRepository);
