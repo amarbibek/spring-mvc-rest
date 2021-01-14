@@ -1,19 +1,15 @@
 package com.mycodestuffs.springmvcrest.controllers.v1;
 
-import com.mycodestuffs.springmvcrest.api.v1.model.CategoryDTO;
-import com.mycodestuffs.springmvcrest.api.v1.model.CategoryListDTO;
 import com.mycodestuffs.springmvcrest.api.v1.model.CustomerDTO;
 import com.mycodestuffs.springmvcrest.api.v1.model.CustomerListDTO;
 import com.mycodestuffs.springmvcrest.services.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/api/v1/customers/")
+@RequestMapping("/api/v1/customers")
 public class CustomerController {
 
 
@@ -24,13 +20,19 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ResponseEntity<CustomerListDTO> getAllCustomers(){
+    public ResponseEntity<CustomerListDTO> getAllCustomers() {
         return new ResponseEntity<CustomerListDTO>(
                 new CustomerListDTO(customerService.getAllCustomers()), HttpStatus.OK);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long id){
-        return new ResponseEntity<CustomerDTO>(customerService.getCustomerById(id),HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long id) {
+        return new ResponseEntity<CustomerDTO>(customerService.getCustomerById(id), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerDTO customerDTO) {
+        return new ResponseEntity<CustomerDTO>(
+                customerService.createCustomer(customerDTO), HttpStatus.CREATED);
     }
 }
