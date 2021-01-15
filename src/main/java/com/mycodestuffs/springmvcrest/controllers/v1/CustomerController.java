@@ -3,11 +3,14 @@ package com.mycodestuffs.springmvcrest.controllers.v1;
 import com.mycodestuffs.springmvcrest.api.v1.model.CustomerDTO;
 import com.mycodestuffs.springmvcrest.api.v1.model.CustomerListDTO;
 import com.mycodestuffs.springmvcrest.services.CustomerService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+@Api("This is a Customer Controller")
 @Controller
 @RequestMapping("/api/v1/customers")
 public class CustomerController {
@@ -19,6 +22,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+    @ApiOperation(value = "This Api will fetch the list of customers",notes = "Some notes about this api")
     @GetMapping
     public ResponseEntity<CustomerListDTO> getAllCustomers() {
         return new ResponseEntity<CustomerListDTO>(
